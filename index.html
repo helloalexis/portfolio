@@ -1,299 +1,958 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alexis Joseph Torralba | Portfolio</title>
-    <link rel="stylesheet" href="./assets/styles/index.css">
+    <title>Alexis Joseph B. Torralba | Program Head & Lead Software Developer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        spotifyGreen: '#1DB954',
+                        spotifyDark: '#121212',
+                        canvasBg: '#F8FAFC',
+                        slateCard: '#0F172A',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .border-bold { border: 3px solid #000000; }
+        .border-bold-lg { border: 4px solid #000000; }
+        .shadow-neobrutal { box-shadow: 6px 6px 0px #000000; }
+        .shadow-neobrutal-sm { box-shadow: 4px 4px 0px #000000; }
+        
+        .section-transition {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+        }
+        
+        .reveal-hidden {
+            opacity: 0;
+            transform: translateY(30px) scale(0.98);
+        }
+        
+        .reveal-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Marquee animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 25s linear infinite;
+        }
+
+        /* Olympic rings stroke animation */
+        .ring-path {
+            stroke-dasharray: 500;
+            stroke-dashoffset: 500;
+            transition: stroke-dashoffset 2.5s ease-in-out;
+        }
+        .rings-assembled .ring-path {
+            stroke-dashoffset: 0;
+        }
+
+        /* Slideshow Crossfade */
+        .slide-img, .work-slide-img {
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* Olympic Rings Drawing Animation */
+@keyframes drawRing {
+    from {
+        stroke-dashoffset: 500;
+    }
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.ring-path {
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+}
+
+/* Draws the rings continuously or when assembled class is present */
+.rings-assembled .ring-path,
+#olympic-rings-container:hover .ring-path {
+    animation: drawRing 2s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* Stagger ring drawing for a premium stroke reveal */
+.rings-assembled .ring-path:nth-child(1) { animation-delay: 0.1s; }
+.rings-assembled .ring-path:nth-child(2) { animation-delay: 0.3s; }
+.rings-assembled .ring-path:nth-child(3) { animation-delay: 0.5s; }
+.rings-assembled .ring-path:nth-child(4) { animation-delay: 0.7s; }
+.rings-assembled .ring-path:nth-child(5) { animation-delay: 0.9s; }
+    </style>
 </head>
-<body>
-    <div class="content-container">
-        <div class="hero-section-container">
-            <div class="name-container">
-                <h3 class="greet hero-animate">Hi everyone, my name is</h3>
-                <h1 class="name hero-animate name-1">Alexis Joseph</h1>
-                <h1 class="name hero-animate name-2">Torralba</h1>
-                <h3 class="position hero-animate pos">I'm a Software Developer</h3>
-            </div>
-            <div class="picture-container hero-animate name-2">
-                <img src="./assets/images/MY_PIC.jpg" alt="Alexis Joseph Torralba">
+
+<body class="bg-canvasBg text-slateCard font-sans antialiased selection:bg-spotifyGreen selection:text-black relative">
+
+    <!-- CANVAS OVERLAYS FOR SCROLL-TRIGGERED ANIMATIONS -->
+    <canvas id="animation-canvas" class="fixed inset-0 pointer-events-none z-50 w-full h-full"></canvas>
+
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b-3 border-black py-4 px-6 md:px-12">
+        <div class="max-w-[1500px] mx-auto flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-black text-spotifyGreen border-2 border-black rounded-xl flex items-center justify-center font-black text-xl shadow-[2px_2px_0px_#1DB954] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform">
+                    AT
+                </div>
+                <div>
+                    <span class="font-black text-lg md:text-xl uppercase tracking-tight block leading-none">Alexis Torralba</span>
+                    <span class="font-mono text-xs font-bold text-gray-600">Program Head & Lead Developer</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 font-mono text-xs font-extrabold uppercase">
+                <a href="#origins" class="hover:text-spotifyGreen transition-colors">01. Origins</a>
+                <a href="#worldskills" class="hover:text-spotifyGreen transition-colors flex items-center gap-1.5"><i class="fa-solid fa-trophy text-spotifyGreen"></i> 02. WorldSkills</a>
+                <a href="#experience" class="hover:text-spotifyGreen transition-colors">03. Experience</a>
+                <a href="#architectures" class="hover:text-spotifyGreen transition-colors">04. Systems</a>
+                <a href="#contact" class="px-4 py-2 bg-black text-spotifyGreen border-2 border-black rounded-lg shadow-neobrutal-sm hover:translate-x-0.5 hover:translate-y-0.5 transition-all">Connect</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="py-12 md:py-20 px-6 md:px-12 max-w-[1500px] mx-auto">
+        <div class="bg-slateCard text-white border-bold-lg rounded-[32px] p-8 md:p-14 shadow-neobrutal relative overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+                
+                <!-- Left Story Introduction -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-black border-2 border-spotifyGreen rounded-full text-spotifyGreen font-mono text-xs font-black uppercase">
+                        <span class="w-2.5 h-2.5 bg-spotifyGreen rounded-full animate-ping"></span>
+                        FULL-STACK SOFTWARE DEVELOPER & MIS HEAD
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-none text-white">
+                        Alexis Joseph <br>
+                        <span class="text-spotifyGreen">Torralba</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl font-bold text-gray-300 leading-relaxed max-w-2xl">
+                        An outstanding software developer, Cum Laude graduate, and WorldSkills national medalist. Building high-impact web architectures, enterprise monitoring systems, and institutional digital transformations.
+                    </p>
+
+                    <!-- Contact & Action Buttons -->
+                    <div class="flex flex-wrap items-center gap-4 pt-4">
+                        <button onclick="copyEmail()" class="px-6 py-3.5 bg-spotifyGreen text-black font-mono font-black rounded-xl border-2 border-black shadow-[4px_4px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-copy"></i>
+                            <span id="email-btn-text">torralbaalexisjoseph@gmail.com</span>
+                        </button>
+                        <a href="#origins" class="px-6 py-3.5 bg-black text-white font-mono font-black rounded-xl border-2 border-spotifyGreen hover:bg-spotifyGreen hover:text-black transition-all">
+                            EXPLORE STORY ↓
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Profile Picture Container -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm aspect-square bg-slate-900 border-4 border-black rounded-3xl overflow-hidden shadow-[8px_8px_0px_#1DB954] flex flex-col items-center justify-center group">
+                        <img src="assets/images/my_pic.jpg" alt="Alexis Joseph Torralba" class="w-full h-full object-cover object-top absolute inset-0 opacity-80 group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">
+                        
+                       
+                    </div>
+                </div>
+
             </div>
         </div>
+    </section>
 
-        <div class="section-two-container">
-            <div class="child-one">
-                <h1 class="wrapped-reveal">A Quick</h1>
-                <h1 class="wrapped-reveal delay-1">Background</h1>
-            </div>
-           <div class="child-two">
-            <div class="snack wrapped-reveal">
-                <h5 class="snack-text-one">I'm based In</h5>
-                <h5 class="snack-text-two">
-                    Philippines, Central Luzon, Bulacan, Malolos City.
-                </h5>
-            </div>
 
-            <div class="snack wrapped-reveal delay-1">
-                <h5 class="snack-text-one"> I Worked At</h5>
-                <h5 class="snack-text-two">
-                    Holy Angel's of St. Rita's Academy, Inc.
-                </h5>
-                <h5 class="snack-text-two">
-                   Blessed HAOSRAI Training and Assessment Center.
-                </h5>
-                <h5 class="snack-text-two">
-                    TESDA BATVS.
-                </h5>
+<!-- CHAPTER 01: ORIGINS & ACADEMIC HONORS -->
+<section id="origins" class="py-12 px-6 md:px-12 max-w-[1500px] mx-auto">
+    <div class="bg-white border-bold-lg rounded-[32px] p-6 md:p-12 space-y-10 section-transition">
+        
+        <!-- SECTION HEADER -->
+        <div class="pb-6 border-b-4 border-black flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-black text-spotifyGreen font-mono text-xs font-black rounded-lg uppercase mb-3 border border-spotifyGreen">
+                    CHAPTER 01: ORIGINS
+                </span>
+                <h2 class="text-4xl sm:text-6xl font-black text-slateCard uppercase tracking-tight">Rooted in Bulacan</h2>
             </div>
             
-            <div class="snack wrapped-reveal delay-2">
-                <h5 class="snack-text-one">My Roles Were</h5>
-                <h5 class="snack-text-two">
-                    Program Head, Diploma in Information Technology.
-                </h5>
-                <h5 class="snack-text-two">
-                    Management Systems Head.
-                </h5>
-                <h5 class="snack-text-two">
-                    Lead Software Developer.
-                </h5>
-                <h5 class="snack-text-two">
-                    College IT Instructor
-                </h5>
-                <h5 class="snack-text-two">
-                    Highschool ICT Teacher
-                </h5>
+            <div class="font-mono text-xs font-black bg-slateCard text-white px-5 py-3 rounded-2xl border-bold shadow-neobrutal-sm flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-spotifyGreen"></i>
+                <span>Pinagbakahan, Malolos City, Bulacan</span>
             </div>
         </div>
+
+        <!-- BIG NARRATIVE STATEMENT -->
+        <div class="space-y-4 max-w-5xl">
+            <h3 class="text-3xl sm:text-5xl font-black uppercase text-slateCard leading-none tracking-tight">
+                From Malolos City to Leading Campus Systems
+            </h3>
+            <p class="text-lg sm:text-2xl font-extrabold text-gray-700 leading-snug">
+                Hailing from Pinagbakahan, Malolos City, Alexis built his reputation on technical speed, system architecture, and academic excellence.
+            </p>
         </div>
 
-        <div class="section-three-container">
-           <div class="section-three-header">
-                <p class="section-tag wrapped-reveal">FEATURED WORK</p>
-
-                <h1 class="wrapped-reveal delay-1">
-                    Projects That<br>
-                    <span class="accent-text accent-pulse">Made An Impact</span>
-                </h1>
-
-                <p class="section-subtitle wrapped-reveal delay-2">
-                    A selection of systems I've designed and developed for
-                    government, education, and private-sector organizations.
-                </p>
-            </div>
+        <!-- 3 LARGE BOLD STAT CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            <div class="project wrapped-reveal">
-                <div class="project-image">
-                    <img src="./assets/images/omd.png" alt="Dashboard Preview">
+            <!-- CARD 1: CUM LAUDE -->
+            <div class="bg-slateCard text-white p-8 rounded-3xl border-bold shadow-neobrutal space-y-4 flex flex-col justify-between cursor-pointer group" onclick="triggerGraduationHats()">
+                <div class="space-y-2">
+                    <span class="font-mono text-xs font-black uppercase text-spotifyGreen">BULACAN POLYTECHNIC COLLEGE</span>
+                    <h4 class="text-4xl font-black text-white uppercase tracking-tight">CUM LAUDE</h4>
+                    <p class="text-sm font-bold text-gray-300">Bachelor of Science in Information Systems</p>
                 </div>
-                <div class="project-description">
-                    <h3>TESDA Region III Online Monitoring Dashboard</h3>
-                    <p>
-                        Commissioned by regional leadership of TESDA, a Philippine government
-                        agency for technical and vocational education, I designed and developed
-                        a real-time monitoring platform for tracking Enrolled, Graduates,
-                        Assessed, Certified and Employed (EGACE) performance.
-                    </p>
-                    <div class="project-stats">
-                        <span>🏛️ Government Project</span>
-                        <span>🏫 133 Institutions</span>
-                        <span>📊 Real-Time Monitoring</span>
-                    </div>
+                <div class="pt-4 border-t border-gray-800 flex items-center justify-between font-mono text-xs font-bold text-spotifyGreen">
+                    <span>ACADEMIC HONORS</span>
+                    <span>🎉 CELEBRATE</span>
                 </div>
             </div>
+
+            <!-- CARD 2: DUAL BEST DEVELOPER AWARDS -->
+            <div class="bg-slateCard text-white p-8 rounded-3xl border-bold shadow-neobrutal space-y-4 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <span class="font-mono text-xs font-black uppercase text-spotifyGreen">BATCH DISTINCTION</span>
+                    <h4 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">BEST DEVELOPER</h4>
+                    <p class="text-sm font-bold text-gray-300">Awarded both Best Software Developer & Best Web Developer for his graduating batch.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-800 font-mono text-xs font-bold text-spotifyGreen">
+                    <span>TOP TECHNICAL GRADUATE</span>
+                </div>
+            </div>
+
+            <!-- CARD 3: MSIT BULSU -->
+            <div class="bg-slateCard text-white p-8 rounded-3xl border-bold shadow-neobrutal space-y-4 flex flex-col justify-between">
+                <div class="space-y-2">
+                    <span class="font-mono text-xs font-black uppercase text-spotifyGreen">BULACAN STATE UNIVERSITY</span>
+                    <h4 class="text-3xl sm:text-4xl font-black text-white uppercase tracking-tight">MSIT DEGREE</h4>
+                    <p class="text-sm font-bold text-gray-300">Master of Science in Information Technology postgraduate studies.</p>
+                </div>
+                <div class="pt-4 border-t border-gray-800 font-mono text-xs font-bold text-spotifyGreen">
+                    <span>POSTGRADUATE CANDIDATE</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+    <!-- CHAPTER 02: WORLDSKILLS OLYMPICS WITH SLIDESHOW -->
+    <section id="worldskills" class="py-12 px-6 md:px-12 max-w-[1500px] mx-auto">
+        
+        <!-- Marquee Ticker -->
+        <div class="bg-black text-white py-3 overflow-hidden border-bold rounded-2xl mb-8 font-mono text-xs font-black uppercase">
+            <div class="marquee-track flex gap-8 whitespace-nowrap animate-marquee">
+                <span>🏆 WORLDSKILLS OLYMPICS MULTI-MEDALIST</span>
+                <span>•</span>
+                <span class="text-spotifyGreen">🥇 PROVINCIAL GOLD MEDALIST</span>
+                <span>•</span>
+                <span class="text-spotifyGreen">🥇 REGIONAL GOLD MEDALIST</span>
+                <span>•</span>
+                <span>🥉 NATIONAL BRONZE MEDALIST</span>
+                <span>•</span>
+                <span>🇵🇭 TEAM PHILIPPINES RESERVE COMPETITOR</span>
+                <span>•</span>
+                <span class="text-spotifyGreen">🥇 PROVINCIAL GOLD MEDALIST</span>
+                <span>•</span>
+            </div>
+        </div>
+
+        <div class="bg-white border-bold-lg rounded-[32px] p-6 md:p-12 space-y-8 section-transition">
             
-            <div class="project wrapped-reveal">
-                <div class="project-description">
-                    <h3>Inventory Management System</h3>
-                    <p>
-                        Commissioned by a leading motorcycle parts and accessories supplier in the
-                        Philippines, I designed and developed an inventory management system that
-                        automates stock tracking through integrated barcode generation and scanning.
-                        The solution improved inventory visibility, reduced manual encoding, and
-                        accelerated inventory operations, allowing staff to manage thousands of
-                        products more efficiently and accurately.
-                    </p>
-                    <div class="project-stats">
-                        <span>📦 Inventory Tracking</span>
-                        <span>🏷️ Barcode Generation</span>
-                        <span>📱 Barcode Scanning</span>
+            <!-- SLEEK MINIMAL HEADER WITH OFFICIAL WORLDSKILLS LOGO -->
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b-4 border-black">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-black text-spotifyGreen font-mono text-xs font-black rounded-lg uppercase mb-3 border border-spotifyGreen">
+                        <i class="fa-solid fa-trophy text-spotifyGreen"></i> CHAPTER 02: WORLDSKILLS OLYMPICS
                     </div>
+
+                    <!-- Clean Minimal WorldSkills Title -->
+                    <div class="flex items-center gap-4 my-2">
+                       <div class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 bg-white p-3 md:p-4 rounded-2xl border-bold shrink-0 shadow-neobrutal-sm flex items-center justify-center">
+                            <img src="assets/images/worldskills_logo.jpg" alt="WorldSkills Logo" class="w-full h-full object-contain" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/e/e6/WorldSkills_logo.svg'">
+                        </div>
+                        <h2 class="text-4xl sm:text-6xl font-black text-black tracking-tight flex items-baseline gap-x-2">
+                            <span class="font-light text-slate-700 lowercase">world</span><span class="font-black lowercase text-black">skills</span>
+                        </h2>
+                    </div>
+
+                    <p class="text-lg font-extrabold text-gray-800 mt-1">Software Applications Development & IT Software Solutions for Business</p>
                 </div>
-                 <div class="project-image">
-                    <img src="./assets/images/inventory.png" alt="Inventory Preview">
+
+                <!-- Animated Olympic Rings Box -->
+               <div class="flex flex-col items-center gap-2 bg-canvasBg p-4 rounded-2xl border-bold shadow-neobrutal-sm shrink-0">
+                    <div id="olympic-rings-container" class="w-48 h-20">
+                        <svg viewBox="0 0 500 240" class="w-full h-full overflow-visible">
+                            <circle class="ring-path" cx="100" cy="90" r="70" fill="none" stroke="#0085C7" stroke-width="18" stroke-linecap="round" />
+                            <circle class="ring-path" cx="250" cy="90" r="70" fill="none" stroke="#000000" stroke-width="18" stroke-linecap="round" />
+                            <circle class="ring-path" cx="400" cy="90" r="70" fill="none" stroke="#DF0024" stroke-width="18" stroke-linecap="round" />
+                            <circle class="ring-path" cx="175" cy="150" r="70" fill="none" stroke="#F4C300" stroke-width="18" stroke-linecap="round" />
+                            <circle class="ring-path" cx="325" cy="150" r="70" fill="none" stroke="#009F3D" stroke-width="18" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="font-mono text-xs font-black uppercase text-slateCard">Team Philippines Competitor</span>
                 </div>
             </div>
 
-            <div class="project wrapped-reveal">
-                <div class="project-image">
-                    <img src="./assets/images/grading.png" alt="SMS Preview">
-                </div>
-                <div class="project-description">
-                    <h3>School Management System</h3>
-                    <p>
-                        Commissioned by Holy Angels of St. Rita's Academy as part of my role as
-                        Management Information Systems (MIS) Head, I designed and developed an
-                        integrated School Management System that digitized key academic and
-                        administrative processes. The platform includes online enrollment,
-                        grading and assessment management, faculty management, teaching load
-                        assignment, and a student portal that allows learners to securely access
-                        grades and academic records online.
-                    </p>
-                    <div class="project-stats">
-                        <span>🎓 Enrollment System</span>
-                        <span>📝 Grading Management</span>
-                        <span>👨‍🏫 Faculty Management</span>
-                        <span>📚 Teaching Load Assignment</span>
-                        <span>🌐 Student Portal</span>
+            <!-- WORLDSKILLS BACKGROUND SLIDESHOW HERO BANNER -->
+            <div class="relative w-full h-[400px] md:h-[480px] rounded-3xl border-bold overflow-hidden shadow-neobrutal bg-black">
+                
+                <!-- Background Images Carousel -->
+                <div id="slideshow-container" class="absolute inset-0 w-full h-full">
+                    <!-- Background Images Carousel -->
+                    <div id="slideshow-container" class="absolute inset-0 w-full h-full">
+                        <img src="assets/images/national.jpg" alt="WorldSkills Competition 1" class="slide-img absolute inset-0 w-full h-full object-cover object-center opacity-100 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=80'">
+                        <img src="assets/images/national_state.jpg" alt="WorldSkills Competition 2" class="slide-img absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80'">
+                        <img src="assets/images/regional.jpg" alt="WorldSkills Competition 3" class="slide-img absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80'">
+                        <img src="assets/images/provincial.jpg" alt="WorldSkills Competition 4" class="slide-img absolute inset-0 w-full h-full object-cover object-center opacity-0 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1600&q=80'">
                     </div>
                 </div>
+
+                <!-- Dark Overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/30"></div>
+
+                <!-- Overlay Content & Photo Badge -->
+                <div class="relative z-10 h-full p-6 md:p-10 flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="px-4 py-2 bg-spotifyGreen text-black font-mono text-xs font-black uppercase rounded-lg border-2 border-black shadow-[2px_2px_0px_#000]">
+                            📸 Competition Gallery
+                        </span>
+                        
+                        <!-- Manual Controls -->
+                        <div class="flex items-center gap-2 bg-black/80 border border-white/20 p-2 rounded-xl backdrop-blur-md">
+                            <button onclick="prevSlide()" class="w-8 h-8 rounded-lg bg-white/10 text-white hover:bg-spotifyGreen hover:text-black font-black transition-colors flex items-center justify-center">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                            </button>
+                            <button onclick="togglePlay()" id="play-pause-btn" class="w-8 h-8 rounded-lg bg-white/10 text-white hover:bg-spotifyGreen hover:text-black font-black transition-colors flex items-center justify-center">
+                                <i class="fa-solid fa-pause text-xs"></i>
+                            </button>
+                            <button onclick="nextSlide()" class="w-8 h-8 rounded-lg bg-white/10 text-white hover:bg-spotifyGreen hover:text-black font-black transition-colors flex items-center justify-center">
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 max-w-3xl">
+                        <div class="inline-flex items-center gap-2 text-spotifyGreen font-mono text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-medal"></i> WorldSkills Arena
+                        </div>
+                        <h3 class="text-3xl sm:text-4xl font-black text-white uppercase leading-tight">
+                            Tested Under Pressure on the National Stage
+                        </h3>
+                        <p class="text-sm sm:text-base font-bold text-gray-200">
+                            Representing Bulacan and Region III in speed programming, complex software architecture, enterprise database design, and real-time system troubleshooting.
+                        </p>
+
+                        <!-- Slide Indicators Dots -->
+                        <div class="flex items-center gap-3 pt-2">
+                            <button onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-spotifyGreen border border-black transition-all"></button>
+                            <button onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white/40 border border-black transition-all"></button>
+                            <button onclick="goToSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white/40 border border-black transition-all"></button>
+                            <button onclick="goToSlide(3)" class="slide-dot w-3 h-3 rounded-full bg-white/40 border border-black transition-all"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medalist Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <div class="bg-slateCard text-white p-6 rounded-2xl border-bold shadow-neobrutal-sm space-y-3 cursor-pointer" onclick="triggerConfetti()">
+                    <div class="w-14 h-14 rounded-2xl bg-black text-spotifyGreen border-2 border-gray-700 flex items-center justify-center text-3xl font-black shadow-[3px_3px_0px_#1DB954]">
+                        🥇
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs font-black uppercase text-gray-400 block">PROVINCIAL OLYMPICS</span>
+                        <h3 class="text-2xl font-black text-white">GOLD MEDALIST</h3>
+                    </div>
+                    <p class="text-sm font-bold text-gray-300">Ranked 1st overall in provincial software application engineering.</p>
+                </div>
+
+                <div class="bg-slateCard text-white p-6 rounded-2xl border-bold shadow-neobrutal-sm space-y-3 cursor-pointer" onclick="triggerConfetti()">
+                    <div class="w-14 h-14 rounded-2xl bg-black text-spotifyGreen border-2 border-gray-700 flex items-center justify-center text-3xl font-black shadow-[3px_3px_0px_#1DB954]">
+                        🥇
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs font-black uppercase text-gray-400 block">REGIONAL OLYMPICS</span>
+                        <h3 class="text-2xl font-black text-white">GOLD MEDALIST</h3>
+                    </div>
+                    <p class="text-sm font-bold text-gray-300">Represented Bulacan across Region III, securing top distinction.</p>
+                </div>
+
+                <div class="bg-slateCard text-white p-6 rounded-2xl border-bold shadow-neobrutal-sm space-y-3 cursor-pointer" onclick="triggerConfetti()">
+                    <div class="w-14 h-14 rounded-2xl bg-black text-spotifyGreen border-2 border-gray-700 flex items-center justify-center text-3xl font-black shadow-[3px_3px_0px_#1DB954]">
+                        🥉
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs font-black uppercase text-gray-400 block">NATIONAL OLYMPICS</span>
+                        <h3 class="text-2xl font-black text-white">BRONZE MEDALIST</h3>
+                    </div>
+                    <p class="text-sm font-bold text-gray-300">Awarded 3rd place nationally among all regional champions.</p>
+                </div>
+
+                <div class="bg-slateCard text-white p-6 rounded-2xl border-bold shadow-neobrutal-sm space-y-3 cursor-pointer" onclick="triggerConfetti()">
+                    <div class="w-14 h-14 rounded-2xl bg-spotifyGreen text-black border-2 border-black flex items-center justify-center text-3xl font-black shadow-[3px_3px_0px_#000]">
+                        🇵🇭
+                    </div>
+                    <div>
+                        <span class="font-mono text-xs font-black uppercase text-gray-400 block">ASEAN OLYMPICS</span>
+                        <h3 class="text-2xl font-black text-white">TEAM RESERVE</h3>
+                    </div>
+                    <p class="text-sm font-bold text-gray-300">Selected official reserve competitor for Team Philippines.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CHAPTER 03: WORK EXPERIENCE WITH PHOTO SLIDESHOW -->
+    <section id="experience" class="py-12 px-6 md:px-12 max-w-[1500px] mx-auto">
+        <div class="bg-white border-bold-lg rounded-[32px] p-6 md:p-12 space-y-8 section-transition">
+            
+            <div class="pb-6 border-b-4 border-black flex items-center justify-between flex-wrap gap-4">
+                <div>
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-black text-spotifyGreen font-mono text-xs font-black rounded-lg uppercase mb-3 border border-spotifyGreen">
+                        CHAPTER 03: WORK EXPERIENCE
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl font-black text-slateCard uppercase">Professional Roles & Impact</h2>
+                </div>
+                <span class="font-mono text-sm font-black bg-canvasBg px-4 py-2 rounded-xl border-2 border-black">2025 – PRESENT</span>
+            </div>
+
+            <!-- WORK EXPERIENCE CONTENT GRID -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <!-- Left Roles Listing -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- Role 1 -->
+                    <div class="bg-slateCard text-white p-6 md:p-8 rounded-3xl border-bold shadow-neobrutal space-y-4">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-spotifyGreen text-black font-mono text-xs font-black rounded-md">PRESENT ROLE</span>
+                            <span class="font-mono text-xs font-bold text-gray-400">2025–Present</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-black text-white uppercase">Program Head (DIT) & MIS Head</h3>
+                        <p class="text-spotifyGreen font-mono font-bold text-sm">Holy Angels of St. Rita's Academy Inc.</p>
+                        <p class="text-gray-300 text-sm font-bold leading-relaxed">
+                            Leading academic operations for the IT program while managing campus software systems, databases, and network infrastructure.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-2 font-mono text-xs font-bold">
+                            <span class="px-3 py-1 bg-black text-white border border-gray-700 rounded-lg">Enrollment System</span>
+                            <span class="px-3 py-1 bg-black text-white border border-gray-700 rounded-lg">Grading System</span>
+                            <span class="px-3 py-1 bg-black text-white border border-gray-700 rounded-lg">QR Attendance</span>
+                        </div>
+                    </div>
+
+                    <!-- Role 2 -->
+                    <div class="bg-slateCard text-white p-6 md:p-8 rounded-3xl border-bold shadow-neobrutal space-y-4">
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-spotifyGreen text-black font-mono text-xs font-black rounded-md">GOVERNMENT SYSTEM</span>
+                            <span class="font-mono text-xs font-bold text-gray-400">Project-Based</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-black text-white uppercase">Lead Software Developer</h3>
+                        <p class="text-spotifyGreen font-mono font-bold text-sm">TESDA Region III</p>
+                        <p class="text-gray-300 text-sm font-bold leading-relaxed">
+                            Engineered the TESDA Region III Online Monitoring Dashboard (OMD), consolidating tracking data across 133 TVIs nationwide.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-2 font-mono text-xs font-bold">
+                            <span class="px-3 py-1 bg-black text-spotifyGreen border border-spotifyGreen rounded-lg">PHP</span>
+                            <span class="px-3 py-1 bg-black text-spotifyGreen border border-spotifyGreen rounded-lg">MySQL</span>
+                            <span class="px-3 py-1 bg-black text-spotifyGreen border border-spotifyGreen rounded-lg">JavaScript</span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Work Experience Photo Gallery Slideshow -->
+                <div class="lg:col-span-5 bg-black rounded-3xl border-bold overflow-hidden shadow-neobrutal relative min-h-[350px] flex flex-col justify-between p-6">
+                    
+                    <!-- Background Carousel Images -->
+                    <div id="work-slideshow-container" class="absolute inset-0 w-full h-full">
+                        <img src="assets/images/work.jpg" alt="Work Photo 1" class="work-slide-img absolute inset-0 w-full h-full object-cover opacity-100 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80'">
+                        <img src="assets/images/work_1.jpg" alt="Work Photo 2" class="work-slide-img absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80'">
+                        <img src="assets/images/work_2.jpg" alt="Work Photo 3" class="work-slide-img absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-1000" onerror="this.src='https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80'">
+                    </div>
+
+                    <!-- Overlay Gradient -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30"></div>
+
+                    <!-- Overlay Header -->
+                    <div class="relative z-10 flex items-center justify-between">
+                        <span class="px-3 py-1 bg-spotifyGreen text-black font-mono text-xs font-black uppercase rounded-lg border border-black">
+                            📷 Work Gallery
+                        </span>
+                        
+                        <div class="flex items-center gap-2 bg-black/80 border border-white/20 p-1.5 rounded-xl">
+                            <button onclick="prevWorkSlide()" class="w-7 h-7 rounded-lg bg-white/10 text-white hover:bg-spotifyGreen hover:text-black font-black transition-colors flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button onclick="nextWorkSlide()" class="w-7 h-7 rounded-lg bg-white/10 text-white hover:bg-spotifyGreen hover:text-black font-black transition-colors flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Overlay Footer Info -->
+                    <div class="relative z-10 space-y-2">
+                        <p id="work-slide-caption" class="font-mono text-xs text-spotifyGreen font-bold uppercase">
+                            Holy Angels of St. Rita's Academy • MIS Operations
+                        </p>
+                        <p class="text-lg font-black text-white leading-snug">
+                            On-site systems management & campus technology implementation
+                        </p>
+                    </div>
+
+                </div>
+
             </div>
         </div>
+    </section>
 
-        <div class="section-four-container">
-            <div class="section-four-left spotify-title">
-                <h1 class="wrapped-reveal">My</h1>
-                <h1 class="wrapped-reveal delay-1">Achievements</h1>
+    <!-- CHAPTER 04: FEATURED ARCHITECTURES -->
+    <section id="architectures" class="py-12 px-6 md:px-12 max-w-[1500px] mx-auto">
+        <div class="bg-white border-bold-lg rounded-[32px] p-6 md:p-12 space-y-8 section-transition">
+            
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-6 border-b-4 border-black">
+                <div>
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-black text-spotifyGreen font-mono text-xs font-black rounded-lg uppercase mb-3 border border-spotifyGreen">
+                        CHAPTER 04: SYSTEMS BUILT
+                    </span>
+                    <h2 class="text-4xl sm:text-5xl font-black text-slateCard uppercase">Deployed Software Systems</h2>
+                </div>
+                <button onclick="openProjectsModal()" class="px-6 py-3 bg-spotifyGreen text-black font-mono font-black rounded-xl border-2 border-black shadow-neobrutal-sm hover:translate-x-0.5 hover:translate-y-0.5 transition-all">
+                    VIEW ALL 6+ SYSTEMS →
+                </button>
             </div>
 
-            <div class="section-four-right">
-                <div class="achievement-card wrapped-reveal">
-                    <h5 class="achievement-title">🏆 WorldSkills Philippines</h5>
-                    <div class="achievement-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>IT Software Solutions for Business Competitor</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Gold Medalist — Provincial Level</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Gold Medalist — Regional Level</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Bronze Medalist — National Level</p>
-                        </div>
+            <!-- 3 Main Featured Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-slateCard text-white p-6 rounded-3xl border-bold shadow-neobrutal space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <span class="px-3 py-1 bg-spotifyGreen text-black font-mono text-[10px] font-black uppercase rounded-md">GOVERNMENT ENTERPRISE</span>
+                        <h3 class="text-2xl font-black text-white uppercase">TESDA Region III OMD</h3>
+                        <p class="text-sm font-bold text-gray-300">
+                            Enterprise monitoring dashboard consolidating real-time EGACE data across 133 Technical-Vocational Institutions.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-800 flex items-center justify-between font-mono text-xs font-bold text-spotifyGreen">
+                        <span>PHP • MySQL • JS</span>
+                        <span>133 TVIs</span>
                     </div>
                 </div>
 
-                <div class="achievement-card wrapped-reveal delay-1">
-                    <h5 class="achievement-title">🎓 Academic Excellence</h5>
-                    <div class="achievement-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Graduated Cum Laude</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Best Software Developer Award</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Best Web Developer Award</p>
-                        </div>
+                <div class="bg-slateCard text-white p-6 rounded-3xl border-bold shadow-neobrutal space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <span class="px-3 py-1 bg-spotifyGreen text-black font-mono text-[10px] font-black uppercase rounded-md">CAMPUS AUTOMATION</span>
+                        <h3 class="text-2xl font-black text-white uppercase">QR Code Attendance System</h3>
+                        <p class="text-sm font-bold text-gray-300">
+                            Automated scanning system for real-time attendance recording, logging timestamps directly into a database.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-800 flex items-center justify-between font-mono text-xs font-bold text-spotifyGreen">
+                        <span>Web Scanners • MySQL</span>
+                        <span>Institutional</span>
                     </div>
                 </div>
 
-                <div class="achievement-card wrapped-reveal">
-                    <h5 class="achievement-title">🌟 Public & Government Recognition</h5>
-                    <div class="achievement-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Governor's Excellence Award Recipient</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Department of Education Plaque of Recognition</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Gawad Kabataan Nominee endorsed by TESDA Region III</p>
-                        </div>
+                <div class="bg-slateCard text-white p-6 rounded-3xl border-bold shadow-neobrutal space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <span class="px-3 py-1 bg-spotifyGreen text-black font-mono text-[10px] font-black uppercase rounded-md">FINTECH / CAMPUS</span>
+                        <h3 class="text-2xl font-black text-white uppercase">Cashless Canteen System</h3>
+                        <p class="text-sm font-bold text-gray-300">
+                            Digital wallet transaction platform supporting cashless food payments, balance tracking, and order logging.
+                        </p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-800 flex items-center justify-between font-mono text-xs font-bold text-spotifyGreen">
+                        <span>PHP • Web Database</span>
+                        <span>Digital Wallet</span>
                     </div>
                 </div>
 
-                <div class="achievement-card wrapped-reveal delay-1">
-                    <h5 class="achievement-title">📜 Certifications & Eligibility</h5>
-                    <div class="achievement-timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Civil Service Eligibility (Honor Graduate Eligibility)</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>Web Development NC III</p>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <p>2D Animation NC II</p>
-                        </div>
-                    </div>
-                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT & FOOTER SECTION -->
+    <section id="contact" class="py-12 px-6 md:px-12 max-w-[1500px] mx-auto pb-24">
+        <div class="bg-slateCard text-white border-bold-lg rounded-[32px] p-8 md:p-14 shadow-neobrutal space-y-8">
+            <div class="space-y-4 text-center max-w-2xl mx-auto">
+                <span class="px-4 py-1.5 bg-black text-spotifyGreen font-mono text-xs font-black rounded-lg uppercase border border-spotifyGreen">
+                    GET IN TOUCH
+                </span>
+                <h2 class="text-4xl sm:text-6xl font-black uppercase text-white">Connect with Alexis</h2>
+                <p class="text-gray-300 font-bold text-base">Available for software development projects, institutional systems, and technical consulting.</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-4">
+                <button onclick="copyEmail()" class="w-full sm:w-auto px-8 py-4 bg-spotifyGreen text-black font-mono font-black text-lg rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>torralbaalexisjoseph@gmail.com</span>
+                </button>
+                <a href="tel:09956441943" class="w-full sm:w-auto px-8 py-4 bg-black text-white font-mono font-black text-lg rounded-2xl border-2 border-spotifyGreen hover:bg-spotifyGreen hover:text-black transition-all flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>0995-644-1943</span>
+                </a>
             </div>
         </div>
+    </section>
 
-        <div class="section-five-container">
-            <div class="section-five-left">
-                <h1 class="wrapped-reveal">
-                    Looking forward <br>
-                    to building <br>
-                    something great <br>
-                    together.
-                </h1>
+    <!-- ALL PROJECTS MODAL DRAWER -->
+    <div id="projects-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="bg-slateCard text-white border-bold-lg rounded-[32px] max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-10 space-y-6 shadow-2xl">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-800">
+                <div>
+                    <span class="font-mono text-xs font-black text-spotifyGreen uppercase">SYSTEMS CATALOG</span>
+                    <h3 class="text-3xl font-black text-white uppercase">All Systems Implemented</h3>
+                </div>
+                <button onclick="closeProjectsModal()" class="w-10 h-10 rounded-full bg-black text-white border-2 border-white hover:bg-spotifyGreen hover:text-black font-black text-xl transition-colors">✕</button>
             </div>
 
-            <div class="section-five-right wrapped-reveal delay-1">
-                <div class="contact-group">
-                    <h5>Email Address</h5>
-                    <p>torralbaalexisjoseph@gmail.com</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-black p-6 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="text-spotifyGreen font-mono text-xs font-bold">01. GOVERNMENT DASHBOARD</span>
+                    <h4 class="text-xl font-black text-white">TESDA Region III OMD</h4>
+                    <p class="text-xs text-gray-300 font-bold">EGACE tracking system used by 133 Technical-Vocational Institutions across Region III.</p>
                 </div>
-                <div class="contact-group">
-                    <h5>Phone Number</h5>
-                    <p>0995 644 1943</p>
+
+                <div class="bg-black p-6 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="text-spotifyGreen font-mono text-xs font-bold">02. INSTITUTIONAL</span>
+                    <h4 class="text-xl font-black text-white">Student Enrollment System</h4>
+                    <p class="text-xs text-gray-300 font-bold">Digitized student registration and enrollment processing platform.</p>
                 </div>
-                <div class="contact-group">
-                    <h5>Location</h5>
-                    <p>Malolos City, Bulacan, Philippines</p>
+
+                <div class="bg-black p-6 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="text-spotifyGreen font-mono text-xs font-bold">03. ACADEMIC RECORDS</span>
+                    <h4 class="text-xl font-black text-white">Student Grading System</h4>
+                    <p class="text-xs text-gray-300 font-bold">Centralized grade encoding, computation, and student record reporting system.</p>
                 </div>
-                <div class="contact-group">
-                    <h5>Connect With Me</h5>
-                    <div class="social-links">
-                        <a href="https://www.linkedin.com/in/torralba-alexis-joseph-b-975612311" target="_blank">LinkedIn</a>
-                        <a href="https://www.facebook.com/alexis.torralba.73" target="_blank">Facebook</a>
-                    </div>
+
+                <div class="bg-black p-6 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="text-spotifyGreen font-mono text-xs font-bold">04. FINTECH</span>
+                    <h4 class="text-xl font-black text-white">Cashless Canteen System</h4>
+                    <p class="text-xs text-gray-300 font-bold">Digital transaction management platform for campus canteen ordering.</p>
                 </div>
+
+                <div class="bg-black p-6 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="text-spotifyGreen font-mono text-xs font-bold">05. SECURITY & LOGGING</span>
+                    <h4 class="text-xl font-black text-white">QR Attendance Monitoring</h4>
+                    <p class="text-xs text-gray-300 font-bold">Scanning attendance system for automated timestamp recording.</p>
+                </div>
+
+                <div class="bg-black p-6 rounded-2xl border border-gray-800 space-y-2">
+                    <span class="text-spotifyGreen font-mono text-xs font-bold">06. E-COMMERCE</span>
+                    <h4 class="text-xl font-black text-white">Kajorge Moto Shop Platform</h4>
+                    <p class="text-xs text-gray-300 font-bold">Custom web platform and domain management for motorcycle components.</p>
+                </div>
+
             </div>
         </div>
     </div>
 
+    <!-- JAVASCRIPT ANIMATIONS & CAROUSEL LOGIC -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                root: null, // uses the viewport
-                rootMargin: '0px',
-                threshold: 0.1 // triggers when 10% of the element is visible
-            };
+        // 1. HIGH-VISIBILITY CONFETTI CANVAS EFFECT
+        let isConfettiRunning = false;
+        function triggerConfetti() {
+            const canvas = document.getElementById('animation-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Add the visible class to trigger the smooth CSS transition
-                        entry.target.classList.add('is-visible');
-                        // Unobserve so the animation only happens ONCE
-                        observer.unobserve(entry.target);
+            const particles = [];
+            const colors = ['#1DB954', '#000000', '#FFD700', '#FF3B30', '#007AFF', '#FFFFFF'];
+
+            for (let i = 0; i < 120; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: -20,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: Math.random() * 6 + 4,
+                    w: Math.random() * 12 + 8,
+                    h: Math.random() * 8 + 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rotation: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 12,
+                    opacity: 1
+                });
+            }
+
+            let frame = 0;
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let active = false;
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.rotation += p.rotSpeed;
+                    if (frame > 60) p.opacity -= 0.015;
+
+                    if (p.opacity > 0 && p.y < canvas.height + 20) {
+                        active = true;
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate((p.rotation * Math.PI) / 180);
+                        ctx.globalAlpha = Math.max(0, p.opacity);
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                        ctx.restore();
                     }
                 });
-            }, observerOptions);
 
-            // Target all your reveal elements
-            const revealElements = document.querySelectorAll('.wrapped-reveal');
-            revealElements.forEach(el => observer.observe(el));
+                frame++;
+                if (active && frame < 150) {
+                    requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            render();
+        }
+
+        // 2. HIGH-VISIBILITY GRADUATION HAT THROW EFFECT
+        function triggerGraduationHats() {
+            const canvas = document.getElementById('animation-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const hats = [];
+            for (let i = 0; i < 30; i++) {
+                hats.push({
+                    x: (canvas.width / 3) + Math.random() * (canvas.width / 3),
+                    y: canvas.height + 40,
+                    vx: (Math.random() - 0.5) * 8,
+                    vy: -(Math.random() * 12 + 14),
+                    size: Math.random() * 20 + 30,
+                    rotation: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 10,
+                    opacity: 1
+                });
+            }
+
+            let frame = 0;
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let active = false;
+
+                hats.forEach(h => {
+                    h.x += h.vx;
+                    h.y += h.vy;
+                    h.vy += 0.35; // Gravity pull
+                    h.rotation += h.rotSpeed;
+                    if (frame > 70) h.opacity -= 0.015;
+
+                    if (h.opacity > 0) {
+                        active = true;
+                        ctx.save();
+                        ctx.translate(h.x, h.y);
+                        ctx.rotate((h.rotation * Math.PI) / 180);
+                        ctx.globalAlpha = Math.max(0, h.opacity);
+                        
+                        // Draw Mortarboard Hat Cap
+                        ctx.fillStyle = '#000000';
+                        ctx.beginPath();
+                        ctx.moveTo(0, -h.size / 2);
+                        ctx.lineTo(h.size, 0);
+                        ctx.lineTo(0, h.size / 2);
+                        ctx.lineTo(-h.size, 0);
+                        ctx.closePath();
+                        ctx.fill();
+
+                        ctx.strokeStyle = '#1DB954';
+                        ctx.lineWidth = 3;
+                        ctx.stroke();
+
+                        // Hat Skull Base
+                        ctx.fillRect(-h.size / 3, 0, (h.size * 2) / 3, h.size / 3);
+
+                        // Yellow Tassel
+                        ctx.strokeStyle = '#FFD700';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.lineTo(h.size / 1.5, h.size / 2);
+                        ctx.stroke();
+
+                        ctx.restore();
+                    }
+                });
+
+                frame++;
+                if (active && frame < 180) {
+                    requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            render();
+        }
+
+        // 3. WORLDSKILLS CAROUSEL LOGIC
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide-img');
+        const dots = document.querySelectorAll('.slide-dot');
+        let slideInterval = setInterval(nextSlide, 4000);
+        let isPlaying = true;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.opacity = (i === index) ? '1' : '0';
+            });
+            dots.forEach((dot, i) => {
+                dot.className = (i === index) 
+                    ? 'slide-dot w-3 h-3 rounded-full bg-spotifyGreen border border-black transition-all'
+                    : 'slide-dot w-3 h-3 rounded-full bg-white/40 border border-black transition-all';
+            });
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % slides.length;
+            showSlide(next);
+        }
+
+        function prevSlide() {
+            let prev = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(prev);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            if (isPlaying) {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 4000);
+            }
+        }
+
+        function togglePlay() {
+            const btn = document.getElementById('play-pause-btn');
+            if (isPlaying) {
+                clearInterval(slideInterval);
+                btn.innerHTML = '<i class="fa-solid fa-play text-xs"></i>';
+            } else {
+                slideInterval = setInterval(nextSlide, 4000);
+                btn.innerHTML = '<i class="fa-solid fa-pause text-xs"></i>';
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 4. WORK EXPERIENCE CAROUSEL LOGIC
+        let currentWorkSlide = 0;
+        const workSlides = document.querySelectorAll('.work-slide-img');
+        const workCaptions = [
+            "Holy Angels of St. Rita's Academy • MIS Operations",
+            "TESDA Region III • Lead Software Development",
+            "Bulacan Polytechnic College • Systems Projects"
+        ];
+
+        function showWorkSlide(index) {
+            workSlides.forEach((slide, i) => {
+                slide.style.opacity = (i === index) ? '1' : '0';
+            });
+            const caption = document.getElementById('work-slide-caption');
+            if (caption) caption.innerText = workCaptions[index] || "";
+            currentWorkSlide = index;
+        }
+
+        function nextWorkSlide() {
+            let next = (currentWorkSlide + 1) % workSlides.length;
+            showWorkSlide(next);
+        }
+
+        function prevWorkSlide() {
+            let prev = (currentWorkSlide - 1 + workSlides.length) % workSlides.length;
+            showWorkSlide(prev);
+        }
+
+        setInterval(nextWorkSlide, 5000);
+
+        // 5. COPY EMAIL TO CLIPBOARD
+        function copyEmail() {
+            navigator.clipboard.writeText('torralbaalexisjoseph@gmail.com');
+            const btnText = document.getElementById('email-btn-text');
+            btnText.innerText = 'COPIED TO CLIPBOARD! ✓';
+            setTimeout(() => {
+                btnText.innerText = 'torralbaalexisjoseph@gmail.com';
+            }, 2500);
+        }
+
+        // 6. PROJECTS MODAL CONTROLS
+        function openProjectsModal() {
+            document.getElementById('projects-modal').classList.remove('hidden');
+        }
+
+        function closeProjectsModal() {
+            document.getElementById('projects-modal').classList.add('hidden');
+        }
+
+        // 7. SCROLL OBSERVERS FOR AUTOMATIC TRIGGERING
+        let confettiTriggered = false;
+        let hatTriggered = false;
+
+        const observerOptions = { threshold: 0.25 };
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal-visible');
+                    entry.target.classList.remove('reveal-hidden');
+
+                    if (entry.target.id === 'worldskills' && !confettiTriggered) {
+                        confettiTriggered = true;
+                        document.getElementById('olympic-rings-container')?.classList.add('rings-assembled');
+                        triggerConfetti();
+                    }
+
+                    if (entry.target.id === 'origins' && !hatTriggered) {
+                        hatTriggered = true;
+                        triggerGraduationHats();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-transition').forEach(el => {
+            el.classList.add('reveal-hidden');
+            revealObserver.observe(el);
         });
+
+        // Force rings assembly on scroll
+        const ringsContainer = document.getElementById('olympic-rings-container');
+        if (ringsContainer) {
+            const ringObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        ringsContainer.classList.add('rings-assembled');
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            ringObserver.observe(ringsContainer);
+        }
     </script>
-</body>
-</html>
 </body>
 </html>
